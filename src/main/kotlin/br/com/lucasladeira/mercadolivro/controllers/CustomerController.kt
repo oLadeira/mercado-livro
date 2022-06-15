@@ -24,4 +24,9 @@ class CustomerController(var customerService: CustomerService) {
     fun getById(@PathVariable id: Long): ResponseEntity<Customer>{
         return ResponseEntity.status(HttpStatus.OK).body(customerService.getById(id))
     }
+
+    @PutMapping("/{id}")
+    fun update(@PathVariable id: Long, @RequestBody customer: Customer): ResponseEntity<Customer>{
+        return ResponseEntity.status(HttpStatus.OK).body(customerService.update(id, customer))
+    }
 }
