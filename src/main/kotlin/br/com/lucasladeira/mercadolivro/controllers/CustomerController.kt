@@ -1,5 +1,8 @@
 package br.com.lucasladeira.mercadolivro.controllers
 
+import br.com.lucasladeira.mercadolivro.dto.CustomerDTO
+import br.com.lucasladeira.mercadolivro.dto.NewCustomerDTO
+import br.com.lucasladeira.mercadolivro.dto.UpdateCustomerDTO
 import br.com.lucasladeira.mercadolivro.entities.Customer
 import br.com.lucasladeira.mercadolivro.services.CustomerService
 import org.springframework.http.HttpStatus
@@ -11,12 +14,12 @@ import org.springframework.web.bind.annotation.*
 class CustomerController(var customerService: CustomerService) {
 
     @PostMapping
-    fun save(@RequestBody customer: Customer): ResponseEntity<Customer>{
+    fun save(@RequestBody customer: NewCustomerDTO): ResponseEntity<Any>{
         return ResponseEntity.status(HttpStatus.CREATED).body(customerService.save(customer))
     }
 
     @GetMapping
-    fun getAll(): ResponseEntity<List<Customer>>{
+    fun getAll(): ResponseEntity<List<CustomerDTO>>{
         return ResponseEntity.status(HttpStatus.OK).body(customerService.getAll())
     }
 
@@ -26,7 +29,7 @@ class CustomerController(var customerService: CustomerService) {
     }
 
     @PutMapping("/{id}")
-    fun update(@PathVariable id: Long, @RequestBody customer: Customer): ResponseEntity<Customer>{
+    fun update(@PathVariable id: Long, @RequestBody customer: UpdateCustomerDTO): ResponseEntity<CustomerDTO>{
         return ResponseEntity.status(HttpStatus.OK).body(customerService.update(id, customer))
     }
 }

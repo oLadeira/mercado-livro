@@ -7,7 +7,7 @@ import javax.persistence.*
 data class Customer(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long,
-    var name: String,
-    var email: String
+    val id: Long? = null,
+    var name: String? = null,
+    var email: String? = null
 )
