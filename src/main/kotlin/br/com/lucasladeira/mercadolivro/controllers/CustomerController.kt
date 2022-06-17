@@ -32,4 +32,10 @@ class CustomerController(var customerService: CustomerService) {
     fun update(@PathVariable id: Long, @RequestBody customer: UpdateCustomerDTO): ResponseEntity<CustomerDTO>{
         return ResponseEntity.status(HttpStatus.OK).body(customerService.update(id, customer))
     }
+
+    @DeleteMapping("/{id}")
+    fun delete (@PathVariable id: Long): ResponseEntity<Void>{
+        customerService.delete(id)
+        return ResponseEntity.status(HttpStatus.OK).build()
+    }
 }

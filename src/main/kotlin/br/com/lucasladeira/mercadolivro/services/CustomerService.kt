@@ -11,4 +11,5 @@ interface CustomerService {
     fun getAll(): List<CustomerDTO>
     fun getById(id: Long): Customer
     fun update(id: Long, updatedCustomer: UpdateCustomerDTO): CustomerDTO
+    fun delete(id: Long)
 }

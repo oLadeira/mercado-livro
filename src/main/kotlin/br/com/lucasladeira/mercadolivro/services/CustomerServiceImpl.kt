@@ -49,4 +49,12 @@ class CustomerServiceImpl(
         BeanUtils.copyProperties(updatedCustomer, customerDB, "id")
         return mapper.fromDTO(customerRepository.save(customerDB), CustomerDTO())
     }
+
+    override fun delete(id: Long) {
+        val opt: Optional<Customer> = customerRepository.findById(id)
+        if (opt.isEmpty){
+            throw EntityNotFoundException("Customer not found!")
+        }
+        customerRepository.delete(opt.get())
+    }
 }
