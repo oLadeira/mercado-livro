@@ -26,6 +26,7 @@ dependencies {
 	implementation("org.modelmapper:modelmapper:3.1.0")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	runtimeOnly("com.h2database:h2")
+	runtimeOnly("mysql:mysql-connector-java")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 

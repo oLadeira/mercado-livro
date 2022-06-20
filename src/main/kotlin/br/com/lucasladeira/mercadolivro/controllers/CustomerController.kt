@@ -36,6 +36,6 @@ class CustomerController(var customerService: CustomerService) {
     @DeleteMapping("/{id}")
     fun delete (@PathVariable id: Long): ResponseEntity<Void>{
         customerService.delete(id)
-        return ResponseEntity.status(HttpStatus.OK).build()
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build()
     }
 }
