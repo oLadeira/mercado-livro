@@ -7,6 +7,8 @@ import br.com.lucasladeira.mercadolivro.entities.Customer
 import br.com.lucasladeira.mercadolivro.repositories.BookRepository
 import br.com.lucasladeira.mercadolivro.utils.DTOUtils
 import org.springframework.stereotype.Service
+import java.util.Optional
+import javax.persistence.EntityNotFoundException
 
 @Service
 class BookServiceImpl(
@@ -25,5 +27,18 @@ class BookServiceImpl(
         book = bookRepository.save(book)
 
         return dtoUtils.toDTO(book, BookDTO::class.java)
+    }
+
+    override fun getAll(): List<BookDTO> {
+        return bookRepository.findAll()
+            .map { book -> dtoUtils.toDTO(book, BookDTO::class.java) }
+    }
+
+    override fun getById(id: Long): Book {
+        var opt: Optional<Book> = bookRepository.findById(id)
+        if (opt.isEmpty){
+            throw EntityNotFoundException("Book not found!")
+        }
+        return opt.get()
     }
 }
