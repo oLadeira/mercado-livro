@@ -9,5 +9,5 @@ data class Customer(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
     var name: String? = null,
-    var email: String? = null
+    var email: String? = null,
 )
