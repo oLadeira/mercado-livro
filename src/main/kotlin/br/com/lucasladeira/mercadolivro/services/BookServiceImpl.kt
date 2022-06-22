@@ -2,11 +2,13 @@ package br.com.lucasladeira.mercadolivro.services
 
 import br.com.lucasladeira.mercadolivro.dto.BookDTO
 import br.com.lucasladeira.mercadolivro.dto.NewBookDTO
+import br.com.lucasladeira.mercadolivro.dto.UpdateBookDTO
 import br.com.lucasladeira.mercadolivro.entities.Book
 import br.com.lucasladeira.mercadolivro.entities.Customer
 import br.com.lucasladeira.mercadolivro.enums.BookStatus
 import br.com.lucasladeira.mercadolivro.repositories.BookRepository
 import br.com.lucasladeira.mercadolivro.utils.DTOUtils
+import org.springframework.beans.BeanUtils
 import org.springframework.stereotype.Service
 import java.util.Optional
 import javax.persistence.EntityNotFoundException
@@ -53,5 +55,11 @@ class BookServiceImpl(
         var book = getById(id)
         book.status = BookStatus.CANCELADO
         bookRepository.save(book)
+    }
+
+    override fun update(id: Long, updatedBook: UpdateBookDTO): BookDTO {
+        var bookDatabase: Book = getById(id);
+        BeanUtils.copyProperties(updatedBook, bookDatabase, "id", "status", "customer")
+        return dtoUtils.toDTO(bookRepository.save(bookDatabase), BookDTO::class.java)
     }
 }
