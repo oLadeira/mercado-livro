@@ -8,9 +8,11 @@ public class DTOUtils {
 
     public static final ModelMapper mapper = new ModelMapper();
 
+    public <D> D fromDTO(Object source, Class<D> destinationType){
+        return mapper.map(source, destinationType);
+    }
 
-    public <T, V> V fromDTO(T t, V v){
-        v = (V) mapper.map(t, v.getClass());
-        return v;
+    public <D> D toDTO(Object source, Class<D> destinationType){
+        return mapper.map(source, destinationType);
     }
 }

@@ -22,14 +22,14 @@ class CustomerServiceImpl(
     lateinit var mapper: DTOUtils
 
     override fun save(customer: NewCustomerDTO): Customer{
-        val customerSave: Customer = mapper.fromDTO(customer, Customer())
+        val customerSave: Customer = mapper.fromDTO(customer, Customer::class.java)
         return customerRepository.save(customerSave);
     }
 
     override fun getAll(): List<CustomerDTO>{
         return customerRepository
             .findAll()
-            .map { customer ->  mapper.fromDTO(customer, CustomerDTO()) }
+            .map { customer ->  mapper.toDTO(customer, CustomerDTO::class.java) }
     }
 
     override fun getById(id: Long): Customer{
@@ -47,7 +47,7 @@ class CustomerServiceImpl(
         }
         val customerDB = opt.get()
         BeanUtils.copyProperties(updatedCustomer, customerDB, "id")
-        return mapper.fromDTO(customerRepository.save(customerDB), CustomerDTO())
+        return mapper.toDTO(customerRepository.save(customerDB), CustomerDTO::class.java)
     }
 
     override fun delete(id: Long) {
