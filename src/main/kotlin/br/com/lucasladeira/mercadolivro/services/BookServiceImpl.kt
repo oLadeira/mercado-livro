@@ -4,6 +4,7 @@ import br.com.lucasladeira.mercadolivro.dto.BookDTO
 import br.com.lucasladeira.mercadolivro.dto.NewBookDTO
 import br.com.lucasladeira.mercadolivro.entities.Book
 import br.com.lucasladeira.mercadolivro.entities.Customer
+import br.com.lucasladeira.mercadolivro.enums.BookStatus
 import br.com.lucasladeira.mercadolivro.repositories.BookRepository
 import br.com.lucasladeira.mercadolivro.utils.DTOUtils
 import org.springframework.stereotype.Service
@@ -22,6 +23,7 @@ class BookServiceImpl(
         val customer: Customer = customerService.getById(bookDTO.customerId)
         var book: Book = dtoUtils.fromDTO(bookDTO, Book::class.java)
 
+        book.id = null
         book.customer = customer
 
         book = bookRepository.save(book)
@@ -40,5 +42,10 @@ class BookServiceImpl(
             throw EntityNotFoundException("Book not found!")
         }
         return opt.get()
+    }
+
+    override fun getActives(): List<BookDTO> {
+        return bookRepository.findByStatus(BookStatus.ATIVO)
+            .map { book -> dtoUtils.toDTO(book, BookDTO::class.java) }
     }
 }

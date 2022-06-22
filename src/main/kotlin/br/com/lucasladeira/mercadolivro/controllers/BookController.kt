@@ -34,4 +34,8 @@ class BookController(
         return ResponseEntity.status(HttpStatus.OK).body(bookService.getById(id))
     }
 
+    @GetMapping("/actives")
+    fun getActives(): ResponseEntity<List<BookDTO>>{
+        return ResponseEntity.status(HttpStatus.OK).body(bookService.getActives())
+    }
 }

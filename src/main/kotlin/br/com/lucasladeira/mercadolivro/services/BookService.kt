@@ -9,4 +9,5 @@ interface BookService {
     fun save(bookDTO: NewBookDTO): BookDTO
     fun getAll(): List<BookDTO>
     fun getById(id: Long): Book
+    fun getActives(): List<BookDTO>
 }
