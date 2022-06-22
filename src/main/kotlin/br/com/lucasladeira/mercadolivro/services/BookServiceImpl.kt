@@ -62,4 +62,12 @@ class BookServiceImpl(
         BeanUtils.copyProperties(updatedBook, bookDatabase, "id", "status", "customer")
         return dtoUtils.toDTO(bookRepository.save(bookDatabase), BookDTO::class.java)
     }
+
+    override fun deleteByCustomer(customer: Customer) {
+        val books = bookRepository.findByCustomer(customer)
+        for (book in books){
+            book.status = BookStatus.DELETADO
+        }
+        bookRepository.saveAll(books)
+    }
 }
