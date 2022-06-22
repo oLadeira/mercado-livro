@@ -10,10 +10,10 @@ data class Book(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null,
-    var name: String,
-    var price: BigDecimal,
+    var name: String? = null,
+    var price: BigDecimal? = null,
     @Enumerated(EnumType.STRING)
-    var status: BookStatus? = null,
+    var status: BookStatus? = BookStatus.ATIVO,
     @ManyToOne
     @JoinColumn(name = "customer_id")
     var customer: Customer? = null
