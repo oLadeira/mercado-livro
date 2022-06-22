@@ -4,6 +4,7 @@ import br.com.lucasladeira.mercadolivro.dto.CustomerDTO
 import br.com.lucasladeira.mercadolivro.dto.NewCustomerDTO
 import br.com.lucasladeira.mercadolivro.dto.UpdateCustomerDTO
 import br.com.lucasladeira.mercadolivro.entities.Customer
+import br.com.lucasladeira.mercadolivro.enums.CustomerStatus
 import br.com.lucasladeira.mercadolivro.repositories.CustomerRepository
 import br.com.lucasladeira.mercadolivro.utils.DTOUtils
 import org.springframework.beans.BeanUtils
@@ -55,6 +56,7 @@ class CustomerServiceImpl(
         if (opt.isEmpty){
             throw EntityNotFoundException("Customer not found!")
         }
-        customerRepository.delete(opt.get())
+        opt.get().status = CustomerStatus.INATIVO
+        customerRepository.save(opt.get())
     }
 }

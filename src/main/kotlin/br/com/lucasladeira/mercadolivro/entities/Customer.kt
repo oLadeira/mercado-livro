@@ -1,5 +1,6 @@
 package br.com.lucasladeira.mercadolivro.entities
 
+import br.com.lucasladeira.mercadolivro.enums.CustomerStatus
 import javax.persistence.*
 
 @Entity
@@ -10,4 +11,5 @@ data class Customer(
     val id: Long? = null,
     var name: String? = null,
     var email: String? = null,
+    var status: CustomerStatus? = CustomerStatus.ATIVO
 )
