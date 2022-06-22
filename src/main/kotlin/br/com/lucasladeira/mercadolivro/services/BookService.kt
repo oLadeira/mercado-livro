@@ -10,4 +10,5 @@ interface BookService {
     fun getAll(): List<BookDTO>
     fun getById(id: Long): Book
     fun getActives(): List<BookDTO>
+    fun delete(id: Long)
 }

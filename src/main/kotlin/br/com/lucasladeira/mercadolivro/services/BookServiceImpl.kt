@@ -48,4 +48,10 @@ class BookServiceImpl(
         return bookRepository.findByStatus(BookStatus.ATIVO)
             .map { book -> dtoUtils.toDTO(book, BookDTO::class.java) }
     }
+
+    override fun delete(id: Long) {
+        var book = getById(id)
+        book.status = BookStatus.CANCELADO
+        bookRepository.save(book)
+    }
 }
