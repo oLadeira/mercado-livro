@@ -9,6 +9,8 @@ import br.com.lucasladeira.mercadolivro.enums.BookStatus
 import br.com.lucasladeira.mercadolivro.repositories.BookRepository
 import br.com.lucasladeira.mercadolivro.utils.DTOUtils
 import org.springframework.beans.BeanUtils
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import java.util.Optional
 import javax.persistence.EntityNotFoundException
@@ -33,8 +35,13 @@ class BookServiceImpl(
         return dtoUtils.toDTO(book, BookDTO::class.java)
     }
 
-    override fun getAll(): List<BookDTO> {
+    /*override fun getAll(): List<BookDTO> {
         return bookRepository.findAll()
+            .map { book -> dtoUtils.toDTO(book, BookDTO::class.java) }
+    }*/
+
+    override fun getAll(pageable: Pageable): Page<BookDTO> {
+        return bookRepository.findAll(pageable)
             .map { book -> dtoUtils.toDTO(book, BookDTO::class.java) }
     }
 

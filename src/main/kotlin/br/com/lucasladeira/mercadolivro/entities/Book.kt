@@ -21,7 +21,7 @@ data class Book(
     var status: BookStatus? = BookStatus.ATIVO
     set(value){
         if (value==BookStatus.DELETADO || value==BookStatus.CANCELADO){
-            throw Exception("Não é possível deletar um livro com o status ${field}")
+            throw Exception("Não é possível deletar um livro com o status $field")
         }
         field = value
     }

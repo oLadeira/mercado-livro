@@ -5,6 +5,10 @@ import br.com.lucasladeira.mercadolivro.dto.NewBookDTO
 import br.com.lucasladeira.mercadolivro.dto.UpdateBookDTO
 import br.com.lucasladeira.mercadolivro.entities.Book
 import br.com.lucasladeira.mercadolivro.services.BookService
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Sort
+import org.springframework.data.web.PageableDefault
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -14,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -27,9 +32,14 @@ class BookController(
         return ResponseEntity.status(HttpStatus.CREATED).body(bookService.save(bookDTO))
     }
 
-    @GetMapping
+    /*@GetMapping
     fun getAll(): ResponseEntity<List<BookDTO>>{
         return ResponseEntity.status(HttpStatus.OK).body(bookService.getAll())
+    }*/
+
+    @GetMapping
+    fun getAll(@PageableDefault(size = 12, page = 0, direction = Sort.Direction.ASC) pageable: Pageable): ResponseEntity<Page<BookDTO>>{
+        return ResponseEntity.status(HttpStatus.OK).body(bookService.getAll(pageable))
     }
 
     @GetMapping("/{id}")
