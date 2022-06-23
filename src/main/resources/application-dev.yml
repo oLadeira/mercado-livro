@@ -9,6 +9,8 @@ spring:
       console:
         enabled: true
         path: /h2-console
+  jackson:
+    default-property-inclusion: non_null
   jpa:
     show-sql: true
   flyway:

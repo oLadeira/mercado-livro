@@ -6,6 +6,7 @@ import br.com.lucasladeira.mercadolivro.dto.UpdateBookDTO
 import br.com.lucasladeira.mercadolivro.entities.Book
 import br.com.lucasladeira.mercadolivro.entities.Customer
 import br.com.lucasladeira.mercadolivro.enums.BookStatus
+import br.com.lucasladeira.mercadolivro.exceptions.model.NotFoundException
 import br.com.lucasladeira.mercadolivro.repositories.BookRepository
 import br.com.lucasladeira.mercadolivro.utils.DTOUtils
 import org.springframework.beans.BeanUtils
@@ -35,11 +36,6 @@ class BookServiceImpl(
         return dtoUtils.toDTO(book, BookDTO::class.java)
     }
 
-    /*override fun getAll(): List<BookDTO> {
-        return bookRepository.findAll()
-            .map { book -> dtoUtils.toDTO(book, BookDTO::class.java) }
-    }*/
-
     override fun getAll(pageable: Pageable): Page<BookDTO> {
         return bookRepository.findAll(pageable)
             .map { book -> dtoUtils.toDTO(book, BookDTO::class.java) }
@@ -48,7 +44,7 @@ class BookServiceImpl(
     override fun getById(id: Long): Book {
         var opt: Optional<Book> = bookRepository.findById(id)
         if (opt.isEmpty){
-            throw EntityNotFoundException("Book not found!")
+            throw NotFoundException("Book $id not exists!", "ML-0001")
         }
         return opt.get()
     }
