@@ -22,9 +22,10 @@ class CustomerServiceImpl(
     @Autowired
     lateinit var mapper: DTOUtils
 
-    override fun save(customer: NewCustomerDTO): Customer{
-        val customerSave: Customer = mapper.fromDTO(customer, Customer::class.java)
-        return customerRepository.save(customerSave);
+    override fun save(customer: NewCustomerDTO): CustomerDTO{
+        var customerSave: Customer = mapper.fromDTO(customer, Customer::class.java)
+        customerSave = customerRepository.save(customerSave)
+        return mapper.toDTO(customerSave, CustomerDTO::class.java)
     }
 
     override fun getAll(): List<CustomerDTO>{
