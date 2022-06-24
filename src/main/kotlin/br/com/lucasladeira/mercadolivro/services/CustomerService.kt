@@ -12,4 +12,5 @@ interface CustomerService {
     fun getById(id: Long): Customer
     fun update(id: Long, updatedCustomer: UpdateCustomerDTO): CustomerDTO
     fun delete(id: Long)
+    fun emailAvaliable(email: String): Boolean
 }
