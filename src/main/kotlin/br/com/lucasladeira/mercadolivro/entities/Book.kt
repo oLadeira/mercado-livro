@@ -1,6 +1,8 @@
 package br.com.lucasladeira.mercadolivro.entities
 
 import br.com.lucasladeira.mercadolivro.enums.BookStatus
+import br.com.lucasladeira.mercadolivro.exceptions.enums.Errors
+import br.com.lucasladeira.mercadolivro.exceptions.model.BadRequestException
 import java.math.BigDecimal
 import javax.persistence.*
 
@@ -20,8 +22,8 @@ data class Book(
     @Enumerated(EnumType.STRING)
     var status: BookStatus? = BookStatus.ATIVO
     set(value){
-        if (value==BookStatus.DELETADO || value==BookStatus.CANCELADO){
-            throw Exception("Não é possível deletar um livro com o status $field")
+        if (field==BookStatus.DELETADO || field==BookStatus.CANCELADO){
+            throw BadRequestException(Errors.ML102.message.format(field), Errors.ML102.code)
         }
         field = value
     }
