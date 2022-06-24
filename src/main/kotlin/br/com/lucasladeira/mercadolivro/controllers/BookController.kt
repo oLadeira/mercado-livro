@@ -11,15 +11,8 @@ import org.springframework.data.domain.Sort
 import org.springframework.data.web.PageableDefault
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.DeleteMapping
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
+import javax.validation.Valid
 
 @RestController
 @RequestMapping("books")
@@ -28,14 +21,9 @@ class BookController(
 ) {
 
     @PostMapping
-    fun save(@RequestBody bookDTO: NewBookDTO): ResponseEntity<BookDTO>{
+    fun save(@RequestBody @Valid bookDTO: NewBookDTO): ResponseEntity<BookDTO>{
         return ResponseEntity.status(HttpStatus.CREATED).body(bookService.save(bookDTO))
     }
-
-    /*@GetMapping
-    fun getAll(): ResponseEntity<List<BookDTO>>{
-        return ResponseEntity.status(HttpStatus.OK).body(bookService.getAll())
-    }*/
 
     @GetMapping
     fun getAll(@PageableDefault(size = 12, page = 0, direction = Sort.Direction.ASC) pageable: Pageable): ResponseEntity<Page<BookDTO>>{
@@ -59,7 +47,7 @@ class BookController(
     }
 
     @PutMapping("/{id}")
-    fun update(@PathVariable id: Long, @RequestBody bookDTO: UpdateBookDTO): ResponseEntity<BookDTO>{
+    fun update(@PathVariable id: Long, @RequestBody @Valid bookDTO: UpdateBookDTO): ResponseEntity<BookDTO>{
         return ResponseEntity.status(HttpStatus.OK).body(bookService.update(id, bookDTO))
     }
 }

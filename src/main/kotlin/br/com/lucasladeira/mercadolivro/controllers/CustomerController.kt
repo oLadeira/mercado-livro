@@ -15,7 +15,7 @@ import javax.validation.Valid
 class CustomerController(var customerService: CustomerService) {
 
     @PostMapping
-    fun save(@RequestBody customer: NewCustomerDTO): ResponseEntity<CustomerDTO>{
+    fun save(@RequestBody @Valid customer: NewCustomerDTO): ResponseEntity<CustomerDTO>{
         return ResponseEntity.status(HttpStatus.CREATED).body(customerService.save(customer))
     }
 
@@ -30,7 +30,7 @@ class CustomerController(var customerService: CustomerService) {
     }
 
     @PutMapping("/{id}")
-    fun update(@PathVariable id: Long, @RequestBody customer: UpdateCustomerDTO): ResponseEntity<CustomerDTO>{
+    fun update(@PathVariable id: Long, @RequestBody @Valid customer: UpdateCustomerDTO): ResponseEntity<CustomerDTO>{
         return ResponseEntity.status(HttpStatus.OK).body(customerService.update(id, customer))
     }
 
