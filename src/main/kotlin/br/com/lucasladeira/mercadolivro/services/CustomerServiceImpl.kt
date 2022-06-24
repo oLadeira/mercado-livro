@@ -5,14 +5,14 @@ import br.com.lucasladeira.mercadolivro.dto.NewCustomerDTO
 import br.com.lucasladeira.mercadolivro.dto.UpdateCustomerDTO
 import br.com.lucasladeira.mercadolivro.entities.Customer
 import br.com.lucasladeira.mercadolivro.enums.CustomerStatus
+import br.com.lucasladeira.mercadolivro.exceptions.enums.Errors
+import br.com.lucasladeira.mercadolivro.exceptions.model.NotFoundException
 import br.com.lucasladeira.mercadolivro.repositories.CustomerRepository
 import br.com.lucasladeira.mercadolivro.utils.DTOUtils
 import org.springframework.beans.BeanUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.util.*
-import javax.persistence.EntityNotFoundException
-import kotlin.collections.ArrayList
 
 @Service
 class CustomerServiceImpl(
@@ -36,27 +36,21 @@ class CustomerServiceImpl(
     override fun getById(id: Long): Customer{
         val opt: Optional<Customer> = customerRepository.findById(id)
         if (opt.isEmpty){
-            throw EntityNotFoundException("Customer not found!")
+            throw NotFoundException(Errors.ML201.message.format(id), Errors.ML201.code)
         }
         return opt.get()
     }
 
     override fun update(id: Long, updatedCustomer: UpdateCustomerDTO): CustomerDTO{
-        val opt: Optional<Customer> = customerRepository.findById(id)
-        if (opt.isEmpty){
-            throw EntityNotFoundException("Customer not found!")
-        }
-        val customerDB = opt.get()
-        BeanUtils.copyProperties(updatedCustomer, customerDB, "id")
-        return mapper.toDTO(customerRepository.save(customerDB), CustomerDTO::class.java)
+        val customer: Customer = getById(id)
+
+        BeanUtils.copyProperties(updatedCustomer, customer, "id")
+        return mapper.toDTO(customerRepository.save(customer), CustomerDTO::class.java)
     }
 
     override fun delete(id: Long) {
-        val opt: Optional<Customer> = customerRepository.findById(id)
-        if (opt.isEmpty){
-            throw EntityNotFoundException("Customer not found!")
-        }
-        opt.get().status = CustomerStatus.INATIVO
-        customerRepository.save(opt.get())
+        var customer: Customer = getById(id)
+        customer.status = CustomerStatus.INATIVO
+        customerRepository.save(customer)
     }
 }

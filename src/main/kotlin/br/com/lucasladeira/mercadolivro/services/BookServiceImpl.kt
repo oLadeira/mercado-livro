@@ -6,6 +6,7 @@ import br.com.lucasladeira.mercadolivro.dto.UpdateBookDTO
 import br.com.lucasladeira.mercadolivro.entities.Book
 import br.com.lucasladeira.mercadolivro.entities.Customer
 import br.com.lucasladeira.mercadolivro.enums.BookStatus
+import br.com.lucasladeira.mercadolivro.exceptions.enums.Errors
 import br.com.lucasladeira.mercadolivro.exceptions.model.NotFoundException
 import br.com.lucasladeira.mercadolivro.repositories.BookRepository
 import br.com.lucasladeira.mercadolivro.utils.DTOUtils
@@ -13,8 +14,7 @@ import org.springframework.beans.BeanUtils
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
-import java.util.Optional
-import javax.persistence.EntityNotFoundException
+import java.util.*
 
 @Service
 class BookServiceImpl(
@@ -42,9 +42,9 @@ class BookServiceImpl(
     }
 
     override fun getById(id: Long): Book {
-        var opt: Optional<Book> = bookRepository.findById(id)
+        val opt: Optional<Book> = bookRepository.findById(id)
         if (opt.isEmpty){
-            throw NotFoundException("Book $id not exists!", "ML-0001")
+            throw NotFoundException(Errors.ML101.message.format(id), Errors.ML101.code)
         }
         return opt.get()
     }
