@@ -61,4 +61,10 @@ class PurchaseServiceImpl(
             .findByCustomer(customer, pageable)
             .map { purchase ->  mapper.toDTO(purchase, PurchaseDTO::class.java) }
     }
+
+    override fun getAllPurchases(pageable: Pageable): Page<PurchaseDTO> {
+        return purchaseRepository
+            .findAll(pageable)
+            .map { purchase ->  mapper.toDTO(purchase, PurchaseDTO::class.java)}
+    }
 }

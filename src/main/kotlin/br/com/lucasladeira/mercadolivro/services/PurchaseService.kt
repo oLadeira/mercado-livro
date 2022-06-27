@@ -11,4 +11,5 @@ interface PurchaseService {
     fun save(newPurchaseDTO: NewPurchaseDTO): PurchaseDTO
     fun update(purchase: Purchase)
     fun getAllPurchasesByCustomerId(customerId: Long, pageable: Pageable): Page<PurchaseDTO>
+    fun getAllPurchases(pageable: Pageable): Page<PurchaseDTO>
 }

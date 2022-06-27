@@ -29,4 +29,9 @@ class PurchaseController(
     fun getAllPurchasesByCustomerId(@PathVariable(name = "customerId") customerId: Long, pageable: Pageable): ResponseEntity<Page<PurchaseDTO>>{
         return ResponseEntity.status(HttpStatus.OK).body(purchaseService.getAllPurchasesByCustomerId(customerId, pageable))
     }
+
+    @GetMapping
+    fun getAllPurchases(pageable: Pageable): ResponseEntity<Page<PurchaseDTO>>{
+        return ResponseEntity.status(HttpStatus.OK).body(purchaseService.getAllPurchases(pageable))
+    }
 }
