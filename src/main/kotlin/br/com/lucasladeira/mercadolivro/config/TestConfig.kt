@@ -2,6 +2,7 @@ package br.com.lucasladeira.mercadolivro.config
 
 import br.com.lucasladeira.mercadolivro.entities.Book
 import br.com.lucasladeira.mercadolivro.entities.Customer
+import br.com.lucasladeira.mercadolivro.enums.BookStatus
 import br.com.lucasladeira.mercadolivro.enums.CustomerStatus
 import br.com.lucasladeira.mercadolivro.repositories.BookRepository
 import br.com.lucasladeira.mercadolivro.repositories.CustomerRepository
@@ -54,6 +55,14 @@ class TestConfig(
             BigDecimal(99),
             c2
         )
-        bookRepository.saveAll(Arrays.asList(b1, b2))
+
+        val b3 = Book(
+            null,
+            "Clean Code",
+            BigDecimal(99),
+            null,
+            BookStatus.DELETADO
+        )
+        bookRepository.saveAll(Arrays.asList(b1, b2, b3))
     }
 }

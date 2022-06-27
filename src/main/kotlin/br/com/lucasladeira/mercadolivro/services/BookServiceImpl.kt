@@ -8,6 +8,7 @@ import br.com.lucasladeira.mercadolivro.entities.Customer
 import br.com.lucasladeira.mercadolivro.enums.BookStatus
 import br.com.lucasladeira.mercadolivro.exceptions.enums.Errors
 import br.com.lucasladeira.mercadolivro.exceptions.model.NotFoundException
+import br.com.lucasladeira.mercadolivro.exceptions.model.UnavailableForPurchaseException
 import br.com.lucasladeira.mercadolivro.repositories.BookRepository
 import br.com.lucasladeira.mercadolivro.utils.DTOUtils
 import org.springframework.beans.BeanUtils
@@ -87,5 +88,13 @@ class BookServiceImpl(
             it.status = BookStatus.VENDIDO
         }
         bookRepository.saveAll(books)
+    }
+
+    override fun avaliableForPurchase(books: List<Book>) {
+        for (book in books){
+            if (book.status != BookStatus.ATIVO){
+                throw UnavailableForPurchaseException(Errors.ML103.message.format(book.name, book.status), Errors.ML103.code)
+            }
+        }
     }
 }

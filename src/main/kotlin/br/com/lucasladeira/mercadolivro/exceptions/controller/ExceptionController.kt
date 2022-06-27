@@ -1,10 +1,7 @@
 package br.com.lucasladeira.mercadolivro.exceptions.controller
 
 import br.com.lucasladeira.mercadolivro.exceptions.enums.Errors
-import br.com.lucasladeira.mercadolivro.exceptions.model.BadRequestException
-import br.com.lucasladeira.mercadolivro.exceptions.model.FieldError
-import br.com.lucasladeira.mercadolivro.exceptions.model.NotFoundException
-import br.com.lucasladeira.mercadolivro.exceptions.model.StandardExceptionBody
+import br.com.lucasladeira.mercadolivro.exceptions.model.*
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.MethodArgumentNotValidException
@@ -47,6 +44,18 @@ class ExceptionController{
             LocalDateTime.now(),
             Errors.ML001.code,
             ex.fieldErrors.map { fieldError ->  FieldError(fieldError.defaultMessage.toString() ,fieldError.field) }
+        )
+        return ResponseEntity.status(error.httpCode).body(error)
+    }
+
+    @ExceptionHandler(UnavailableForPurchaseException::class)
+    fun unavailableForPurchaseException(ex: UnavailableForPurchaseException, request:WebRequest): ResponseEntity<StandardExceptionBody>{
+        val error = StandardExceptionBody(
+            HttpStatus.UNPROCESSABLE_ENTITY.value(),
+            ex.message,
+            LocalDateTime.now(),
+            Errors.ML103.code,
+            null
         )
         return ResponseEntity.status(error.httpCode).body(error)
     }

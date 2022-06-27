@@ -6,9 +6,11 @@ import br.com.lucasladeira.mercadolivro.entities.Purchase
 import br.com.lucasladeira.mercadolivro.events.PurchaseEvent
 import br.com.lucasladeira.mercadolivro.repositories.PurchaseRepository
 import br.com.lucasladeira.mercadolivro.utils.DTOUtils
+import org.slf4j.LoggerFactory
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
+import javax.transaction.Transactional
 
 @Service
 class PurchaseServiceImpl(
@@ -19,11 +21,16 @@ class PurchaseServiceImpl(
     private val applicationEventPublisher: ApplicationEventPublisher
     ): PurchaseService {
 
+    private val logger = LoggerFactory.getLogger(this::class.java)
 
+    @Transactional
     override fun save(newPurchaseDTO: NewPurchaseDTO): PurchaseDTO {
         var purchase = mapper.fromDTO(newPurchaseDTO, Purchase::class.java)
         val customer = customerService.getById(newPurchaseDTO.customerId)
         val books = bookService.getAllById(newPurchaseDTO.bookIds)
+
+        //validando se os livros estao disponiveis para compra
+        bookService.avaliableForPurchase(books)
 
         purchase.id = null
         purchase.customer = customer
@@ -34,7 +41,9 @@ class PurchaseServiceImpl(
         purchase = purchaseRepository.save(purchase)
 
         //disparando evento
+        logger.info("Disparando evento de compra!")
         applicationEventPublisher.publishEvent(PurchaseEvent(this, purchase))
+
         return mapper.toDTO(purchase, PurchaseDTO::class.java)
     }
 
