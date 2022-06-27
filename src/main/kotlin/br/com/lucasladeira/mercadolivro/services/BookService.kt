@@ -7,6 +7,7 @@ import br.com.lucasladeira.mercadolivro.entities.Book
 import br.com.lucasladeira.mercadolivro.entities.Customer
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
+import java.math.BigDecimal
 
 interface BookService {
 
@@ -20,4 +21,5 @@ interface BookService {
     fun deleteByCustomer(customer: Customer)
     fun purchase(books: MutableList<Book>)
     fun avaliableForPurchase(books: List<Book>)
+    fun calculateTotal(books: List<Book>): BigDecimal
 }

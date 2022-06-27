@@ -15,6 +15,7 @@ import org.springframework.beans.BeanUtils
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
+import java.math.BigDecimal
 import java.util.*
 
 @Service
@@ -96,5 +97,9 @@ class BookServiceImpl(
                 throw UnavailableForPurchaseException(Errors.ML103.message.format(book.name, book.status), Errors.ML103.code)
             }
         }
+    }
+
+    override fun calculateTotal(books: List<Book>): BigDecimal {
+        return books.sumOf { it.price }
     }
 }

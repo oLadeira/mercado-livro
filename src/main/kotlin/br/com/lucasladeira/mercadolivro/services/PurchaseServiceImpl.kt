@@ -38,7 +38,7 @@ class PurchaseServiceImpl(
             customer,
             books.toMutableList(),
             null,
-            books.sumOf { it.price },
+            bookService.calculateTotal(books),
             LocalDateTime.now())
 
         purchase = purchaseRepository.save(purchase)
