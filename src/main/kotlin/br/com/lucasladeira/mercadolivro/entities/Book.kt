@@ -13,7 +13,7 @@ data class Book(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null,
     var name: String? = null,
-    var price: BigDecimal? = null,
+    var price: BigDecimal,
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
@@ -31,7 +31,7 @@ data class Book(
     constructor(
         id: Long? = null,
         name: String? = null,
-        price: BigDecimal? = null,
+        price: BigDecimal,
         customer: Customer? = null,
         status: BookStatus? = BookStatus.ATIVO
     ): this(id, name, price, customer){

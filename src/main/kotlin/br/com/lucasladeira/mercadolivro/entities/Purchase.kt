@@ -13,18 +13,18 @@ data class Purchase(
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
-    val customer: Customer,
+    var customer: Customer,
 
     @ManyToMany
     @JoinTable(name = "purchase_book",
     joinColumns = [JoinColumn(name = "purchase_id")],
     inverseJoinColumns = [JoinColumn(name = "book_id")])
-    val books: List<Book>,
+    var books: List<Book>,
 
-    val nfe: String? = null,
+    var nfe: String? = null,
 
-    val price: BigDecimal,
+    var price: BigDecimal,
 
     @Column(name = "created_at")
-    val createdAt: LocalDateTime
+    var createdAt: LocalDateTime = LocalDateTime.now()
 )

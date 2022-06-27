@@ -11,9 +11,9 @@ import org.springframework.data.domain.Pageable
 interface BookService {
 
     fun save(bookDTO: NewBookDTO): BookDTO
-    /*fun getAll(): List<BookDTO>*/
-    fun getAll(pageagle: Pageable): Page<BookDTO>
+    fun getAll(pageable: Pageable): Page<BookDTO>
     fun getById(id: Long): Book
+    fun getAllById(ids: Set<Long>): List<Book>
     fun getActives(): List<BookDTO>
     fun delete(id: Long)
     fun update(id: Long, updatedBook: UpdateBookDTO): BookDTO

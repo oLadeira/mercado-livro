@@ -49,6 +49,14 @@ class BookServiceImpl(
         return opt.get()
     }
 
+    override fun getAllById(ids: Set<Long>): List<Book> {
+        val list = bookRepository.findAllById(ids).toList()
+        if (list.isEmpty()){
+            throw NotFoundException(Errors.ML101.message, Errors.ML101.code)
+        }
+        return list
+    }
+
     override fun getActives(): List<BookDTO> {
         return bookRepository.findByStatus(BookStatus.ATIVO)
             .map { book -> dtoUtils.toDTO(book, BookDTO::class.java) }
