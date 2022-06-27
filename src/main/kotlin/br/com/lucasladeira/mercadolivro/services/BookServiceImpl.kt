@@ -81,4 +81,11 @@ class BookServiceImpl(
         }
         bookRepository.saveAll(books)
     }
+
+    override fun purchase(books: MutableList<Book>) {
+        books.map {
+            it.status = BookStatus.VENDIDO
+        }
+        bookRepository.saveAll(books)
+    }
 }

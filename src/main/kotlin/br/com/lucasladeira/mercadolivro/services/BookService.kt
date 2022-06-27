@@ -18,4 +18,5 @@ interface BookService {
     fun delete(id: Long)
     fun update(id: Long, updatedBook: UpdateBookDTO): BookDTO
     fun deleteByCustomer(customer: Customer)
+    fun purchase(books: MutableList<Book>)
 }

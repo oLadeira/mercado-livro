@@ -19,7 +19,7 @@ data class Purchase(
     @JoinTable(name = "purchase_book",
     joinColumns = [JoinColumn(name = "purchase_id")],
     inverseJoinColumns = [JoinColumn(name = "book_id")])
-    var books: List<Book>,
+    var books: MutableList<Book>,
 
     var nfe: String? = null,
 

@@ -25,8 +25,9 @@ class PurchaseServiceImpl(
         val customer = customerService.getById(newPurchaseDTO.customerId)
         val books = bookService.getAllById(newPurchaseDTO.bookIds)
 
+        purchase.id = null
         purchase.customer = customer
-        purchase.books = books
+        purchase.books = books.toMutableList()
         purchase.price = books.sumOf { it.price }
         purchase.createdAt = LocalDateTime.now()
 
