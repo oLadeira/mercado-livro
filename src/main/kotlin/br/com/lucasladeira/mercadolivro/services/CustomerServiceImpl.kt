@@ -12,12 +12,14 @@ import br.com.lucasladeira.mercadolivro.repositories.CustomerRepository
 import br.com.lucasladeira.mercadolivro.utils.DTOUtils
 import org.springframework.beans.BeanUtils
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 import java.util.*
 
 @Service
 class CustomerServiceImpl(
-    var customerRepository: CustomerRepository,
+    private var customerRepository: CustomerRepository,
+    private val bcrypt: BCryptPasswordEncoder
     ): CustomerService {
 
     @Autowired
@@ -28,6 +30,7 @@ class CustomerServiceImpl(
 
         customerSave.status = CustomerStatus.ATIVO
         customerSave.roles = setOf(Profile.CUSTOMER)
+        customerSave.password = bcrypt.encode(customerSave.password)
 
         customerSave = customerRepository.save(customerSave)
         return mapper.toDTO(customerSave, CustomerDTO::class.java)
