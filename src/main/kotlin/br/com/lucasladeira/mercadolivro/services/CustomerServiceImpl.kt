@@ -24,6 +24,7 @@ class CustomerServiceImpl(
 
     override fun save(customer: NewCustomerDTO): CustomerDTO{
         var customerSave: Customer = mapper.fromDTO(customer, Customer::class.java)
+        customerSave.status = CustomerStatus.ATIVO
         customerSave = customerRepository.save(customerSave)
         return mapper.toDTO(customerSave, CustomerDTO::class.java)
     }

@@ -6,9 +6,12 @@ import javax.validation.constraints.NotEmpty
 
 data class NewCustomerDTO(
     @field:NotEmpty(message = "Nome deve ser informado!")
-    val name: String,
+    var name: String,
 
     @field:Email(message = "E-mail deve ser válido!")
     @EmailAvailable
-    val email: String
+    var email: String,
+
+    @field:NotEmpty(message = "Senha deve ser informado!")
+    var password: String
 )

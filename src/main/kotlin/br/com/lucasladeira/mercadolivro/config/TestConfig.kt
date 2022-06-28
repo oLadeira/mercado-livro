@@ -24,21 +24,24 @@ class TestConfig(
             null,
             "Lucas Ladeira",
             "ladeira222@hotmail.com",
-            CustomerStatus.ATIVO
+            CustomerStatus.ATIVO,
+            "senha4321"
         )
 
         val c2 = Customer(
             null,
             "Rafael Lima",
             "rafa2@hotmail.com",
-            CustomerStatus.ATIVO
+            CustomerStatus.ATIVO,
+            "senha123"
         )
 
         val c3 = Customer(
             null,
             "Henrique Fernandes",
             "henri51@hotmail.com",
-            CustomerStatus.ATIVO
+            CustomerStatus.ATIVO,
+            "lalalalv3213"
         )
         customerRepository.saveAll(Arrays.asList(c1, c2, c3))
 

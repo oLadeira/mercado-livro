@@ -11,5 +11,6 @@ data class Customer(
     val id: Long? = null,
     var name: String? = null,
     var email: String? = null,
-    var status: CustomerStatus? = CustomerStatus.ATIVO
+    var status: CustomerStatus? = CustomerStatus.ATIVO,
+    var password: String
 )
