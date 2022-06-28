@@ -5,6 +5,7 @@ import br.com.lucasladeira.mercadolivro.dto.NewCustomerDTO
 import br.com.lucasladeira.mercadolivro.dto.UpdateCustomerDTO
 import br.com.lucasladeira.mercadolivro.entities.Customer
 import br.com.lucasladeira.mercadolivro.enums.CustomerStatus
+import br.com.lucasladeira.mercadolivro.enums.Profile
 import br.com.lucasladeira.mercadolivro.exceptions.enums.Errors
 import br.com.lucasladeira.mercadolivro.exceptions.model.NotFoundException
 import br.com.lucasladeira.mercadolivro.repositories.CustomerRepository
@@ -24,7 +25,10 @@ class CustomerServiceImpl(
 
     override fun save(customer: NewCustomerDTO): CustomerDTO{
         var customerSave: Customer = mapper.fromDTO(customer, Customer::class.java)
+
         customerSave.status = CustomerStatus.ATIVO
+        customerSave.roles = setOf(Profile.CUSTOMER)
+
         customerSave = customerRepository.save(customerSave)
         return mapper.toDTO(customerSave, CustomerDTO::class.java)
     }

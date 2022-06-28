@@ -1,6 +1,7 @@
 package br.com.lucasladeira.mercadolivro.entities
 
 import br.com.lucasladeira.mercadolivro.enums.CustomerStatus
+import br.com.lucasladeira.mercadolivro.enums.Profile
 import javax.persistence.*
 
 @Entity
@@ -12,5 +13,11 @@ data class Customer(
     var name: String? = null,
     var email: String? = null,
     var status: CustomerStatus? = CustomerStatus.ATIVO,
-    var password: String
+    var password: String,
+
+    @CollectionTable(name = "tb_customer_roles",
+    joinColumns = [JoinColumn(name= "customer_id")])
+    @ElementCollection(targetClass = Profile::class, fetch = FetchType.EAGER)
+    @Enumerated(EnumType.STRING)
+    var roles: Set<Profile> = setOf()
 )
