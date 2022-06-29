@@ -4,6 +4,7 @@ import br.com.lucasladeira.mercadolivro.enums.Role
 import br.com.lucasladeira.mercadolivro.repositories.CustomerRepository
 import br.com.lucasladeira.mercadolivro.security.AuthenticationFilter
 import br.com.lucasladeira.mercadolivro.security.AuthorizationFilter
+import br.com.lucasladeira.mercadolivro.security.CustomAuthenticationEntryPoint
 import br.com.lucasladeira.mercadolivro.security.JwtUtil
 import br.com.lucasladeira.mercadolivro.services.UserDetailsCustomService
 import org.springframework.context.annotation.Bean
@@ -28,7 +29,8 @@ import org.springframework.web.filter.CorsFilter
 class SecurityConfig(
     private val userDetailsCustomService: UserDetailsCustomService,
     private val customerRepository: CustomerRepository,
-    private val jwtUtil: JwtUtil
+    private val jwtUtil: JwtUtil,
+    private val customEntryPoint: CustomAuthenticationEntryPoint
 ): WebSecurityConfigurerAdapter() {
 
     @Bean
@@ -65,6 +67,8 @@ class SecurityConfig(
 
         http.addFilter(AuthenticationFilter(authenticationManager(), customerRepository, jwtUtil))
         http.addFilter(AuthorizationFilter(authenticationManager(), userDetailsCustomService, jwtUtil))
+
+        http.exceptionHandling().authenticationEntryPoint(customEntryPoint)
     }
 
     override fun configure(auth: AuthenticationManagerBuilder){

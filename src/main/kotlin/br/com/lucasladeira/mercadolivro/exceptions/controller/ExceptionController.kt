@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.context.request.WebRequest
 import java.time.LocalDateTime
+import org.springframework.security.access.AccessDeniedException
 
 @ControllerAdvice
 class ExceptionController{
@@ -60,11 +61,11 @@ class ExceptionController{
         return ResponseEntity.status(error.httpCode).body(error)
     }
 
-    @ExceptionHandler(AuthenticationException::class)
-    fun authenticationException(ex: AuthenticationException, request: WebRequest): ResponseEntity<StandardExceptionBody>{
+    @ExceptionHandler(AccessDeniedException::class)
+    fun accessDeniedException(ex: AccessDeniedException, request:WebRequest): ResponseEntity<StandardExceptionBody>{
         val error = StandardExceptionBody(
             HttpStatus.FORBIDDEN.value(),
-            ex.message,
+            Errors.ML401.message,
             LocalDateTime.now(),
             Errors.ML401.code,
             null
