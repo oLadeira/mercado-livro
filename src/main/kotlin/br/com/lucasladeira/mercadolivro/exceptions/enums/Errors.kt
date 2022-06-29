@@ -12,5 +12,8 @@ enum class Errors(
     ML103("ML-103", "Cannot purchase Book %s with status %s!"),
 
     //Customer exceptions
-    ML201("ML-201", "Customer %s not exists!")
+    ML201("ML-201", "Customer %s not exists!"),
+
+    //Authentication exceptions
+    ML401("ML-401", "Erro na tentativa de autenticação!")
 }

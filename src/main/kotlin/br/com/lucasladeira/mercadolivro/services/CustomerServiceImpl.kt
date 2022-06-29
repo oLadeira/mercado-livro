@@ -5,7 +5,7 @@ import br.com.lucasladeira.mercadolivro.dto.NewCustomerDTO
 import br.com.lucasladeira.mercadolivro.dto.UpdateCustomerDTO
 import br.com.lucasladeira.mercadolivro.entities.Customer
 import br.com.lucasladeira.mercadolivro.enums.CustomerStatus
-import br.com.lucasladeira.mercadolivro.enums.Profile
+import br.com.lucasladeira.mercadolivro.enums.Role
 import br.com.lucasladeira.mercadolivro.exceptions.enums.Errors
 import br.com.lucasladeira.mercadolivro.exceptions.model.NotFoundException
 import br.com.lucasladeira.mercadolivro.repositories.CustomerRepository
@@ -29,7 +29,7 @@ class CustomerServiceImpl(
         var customerSave: Customer = mapper.fromDTO(customer, Customer::class.java)
 
         customerSave.status = CustomerStatus.ATIVO
-        customerSave.roles = setOf(Profile.CUSTOMER)
+        customerSave.roles = setOf(Role.CUSTOMER)
         customerSave.password = bcrypt.encode(customerSave.password)
 
         customerSave = customerRepository.save(customerSave)

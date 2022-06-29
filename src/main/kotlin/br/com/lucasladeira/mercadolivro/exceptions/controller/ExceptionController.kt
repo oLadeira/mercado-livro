@@ -59,4 +59,16 @@ class ExceptionController{
         )
         return ResponseEntity.status(error.httpCode).body(error)
     }
+
+    @ExceptionHandler(AuthenticationException::class)
+    fun authenticationException(ex: AuthenticationException, request: WebRequest): ResponseEntity<StandardExceptionBody>{
+        val error = StandardExceptionBody(
+            HttpStatus.FORBIDDEN.value(),
+            ex.message,
+            LocalDateTime.now(),
+            Errors.ML401.code,
+            null
+        )
+        return ResponseEntity.status(error.httpCode).body(error)
+    }
 }

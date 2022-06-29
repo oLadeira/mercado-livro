@@ -4,11 +4,13 @@ import br.com.lucasladeira.mercadolivro.entities.Book
 import br.com.lucasladeira.mercadolivro.entities.Customer
 import br.com.lucasladeira.mercadolivro.enums.BookStatus
 import br.com.lucasladeira.mercadolivro.enums.CustomerStatus
+import br.com.lucasladeira.mercadolivro.enums.Role
 import br.com.lucasladeira.mercadolivro.repositories.BookRepository
 import br.com.lucasladeira.mercadolivro.repositories.CustomerRepository
 import org.springframework.boot.CommandLineRunner
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Profile
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import java.math.BigDecimal
 import java.util.*
 
@@ -16,7 +18,8 @@ import java.util.*
 @Profile("dev")
 class TestConfig(
     var bookRepository: BookRepository,
-    var customerRepository: CustomerRepository
+    var customerRepository: CustomerRepository,
+    var bCryptPasswordEncoder: BCryptPasswordEncoder
 ) : CommandLineRunner{
     override fun run(vararg args: String?) {
 
@@ -33,7 +36,7 @@ class TestConfig(
             "Rafael Lima",
             "rafa2@hotmail.com",
             CustomerStatus.ATIVO,
-            "senha123"
+            bCryptPasswordEncoder.encode("senha123")
         )
 
         val c3 = Customer(
@@ -41,9 +44,18 @@ class TestConfig(
             "Henrique Fernandes",
             "henri51@hotmail.com",
             CustomerStatus.ATIVO,
-            "lalalalv3213"
+            bCryptPasswordEncoder.encode("lalalalv3213")
         )
-        customerRepository.saveAll(Arrays.asList(c1, c2, c3))
+
+        val c4 = Customer(
+            null,
+            "ADMINISTRADOR",
+            "adm@hotmail.com",
+            CustomerStatus.ATIVO,
+            bCryptPasswordEncoder.encode("supersecreto"),
+            setOf(Role.ADMIN, Role.CUSTOMER)
+        )
+        customerRepository.saveAll(listOf(c1, c2, c3, c4))
 
 
         val b1 = Book(

@@ -7,6 +7,7 @@ import br.com.lucasladeira.mercadolivro.entities.Customer
 import br.com.lucasladeira.mercadolivro.services.CustomerService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
 
@@ -25,6 +26,7 @@ class CustomerController(var customerService: CustomerService) {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN') || #id == authentication.principal.id")
     fun getById(@PathVariable id: Long): ResponseEntity<Customer>{
         return ResponseEntity.status(HttpStatus.OK).body(customerService.getById(id))
     }
