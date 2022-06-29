@@ -6,7 +6,9 @@ import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 
-class UserCustomDetails(val customer: Customer): UserDetails {
+class UserCustomDetails(
+    private val customer: Customer
+    ): UserDetails {
 
     val id = customer.id
 

@@ -17,7 +17,7 @@ import javax.validation.Valid
 @RestController
 @RequestMapping("books")
 class BookController(
-    var bookService: BookService
+    private var bookService: BookService
 ) {
 
     @PostMapping

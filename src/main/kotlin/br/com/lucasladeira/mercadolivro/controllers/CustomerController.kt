@@ -8,13 +8,14 @@ import br.com.lucasladeira.mercadolivro.services.CustomerService
 import br.com.lucasladeira.mercadolivro.validation.UserCanOnlyAccessTheirOwnResource
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
 
 @RestController
 @RequestMapping("/customers")
-class CustomerController(var customerService: CustomerService) {
+class CustomerController(
+    private var customerService: CustomerService
+    ) {
 
     @PostMapping
     fun save(@RequestBody @Valid customer: NewCustomerDTO): ResponseEntity<CustomerDTO>{

@@ -20,9 +20,9 @@ import java.util.*
 
 @Service
 class BookServiceImpl(
-    var bookRepository: BookRepository,
-    var customerService: CustomerService,
-    var dtoUtils: DTOUtils,
+    private var bookRepository: BookRepository,
+    private var customerService: CustomerService,
+    private var dtoUtils: DTOUtils,
 ): BookService {
 
 
